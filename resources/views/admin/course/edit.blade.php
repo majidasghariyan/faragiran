@@ -12,7 +12,7 @@
         <div class="form-group row align-items-center justify-content-center">
             <label for="staticEmail" class="col-sm-2 col-form-label">قیمت</label>
             <div class="col-sm-8">
-                <input type="text" name="price" class="form-control"  value="{{ $course->price}}" placeholder="قیمت" autocomplete="off">
+                <input type="text" name="price" class="form-control" @if(!empty($course->price->price)) value="{{ $course->price->price}}" @endif  placeholder="قیمت" autocomplete="off">
             </div>
         </div>
 

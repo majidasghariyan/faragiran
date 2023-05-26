@@ -21,7 +21,12 @@
                 <tr>
                     <td>{{$course->id}}</td>
                     <td>{{$course->name}}</td>
-                    <td>{{$course->price}}</td>
+                    <td>
+                        @if(!empty($course->price->price))
+                            {{$course->price->price}}
+                        @endif
+
+                    </td>
                     <td class="text-center">
 
                         <a href="{{ route('admin.course.add', $course) }}" class="btn btn-sm btn-primary" data-toggle="tooltip" title="اضافه کردن درس" data-original-title="ویرایش">

@@ -18,7 +18,7 @@ class UpdateCourseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'price' => 'required|numeric',
+            'price' => 'required|numeric|integer|gt:0',
         ];
     }
 }

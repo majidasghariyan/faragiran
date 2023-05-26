@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Courses\AddLesson;
+use App\Actions\Courses\IndexCourses;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Actions\Courses\UpdateCoursePrice;
 use App\Http\Requests\Course\UpdateCourseRequest;
 use App\Http\Requests\Course\AddLessonCourseRequest;
 use App\Models\Course;
-use App\Repositories\course\CourseRepositoryInterface;
-
+use Exception;
 
 
 class CourseController extends Controller
 {
-    private $repository;
 
-    public function __construct(CourseRepositoryInterface $courseRepository)
-    {
-        $this->repository = $courseRepository;
-    }
-
-    public function index()
+    public function index(IndexCourses $action)
     {
         $title = "لیست دوره ها";
         $subtitle = "دوره ها";
-        $courses = $this->repository->get_all();
+        $courses = $action->handle();
         return view('admin.course.index', compact('courses', 'title', 'subtitle'));
     }
 
@@ -32,11 +29,18 @@ class CourseController extends Controller
         return view('admin.course.edit', compact('course'));
     }
 
-    public function update(UpdateCourseRequest $request, Course $course)
+    public function update(UpdateCourseRequest $request, UpdateCoursePrice $action, Course $course)
     {
-        $this->repository->updateCourse($request, $course);
-        alert_message('با موفقیت ویرایش شد', 'success');
+        try {
+            $data = $request->validated();
+//            throw new \Error('dfgdfsdf');
+            $action->handle($course, $data);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
         return redirect()->back();
+        alert_message('با موفقیت ویرایش شد', 'success');
+
     }
 
     public function add_lesson(Course $course)
@@ -44,9 +48,14 @@ class CourseController extends Controller
         return view('admin.course.add', compact('course'));
     }
 
-    public function save_lesson(AddLessonCourseRequest $request, Course $course)
+    public function save_lesson(AddLessonCourseRequest $request, Course $course, AddLesson $action)
     {
-        $this->repository->addLessonCourse($request, $course);
+        try {
+            $data = $request->validated();
+            $action->handle($course, $data);
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
         alert_message('با موفقیت اضافه شد', 'success');
         return redirect()->back();
     }

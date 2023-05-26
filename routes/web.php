@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function (){
+    $course = \App\Models\Course::find(4);
+    $course->prices()->create([
+       'price' => 500,
+    ]);
+});
+
 Route::group(['prefix'=>'/panel'], function() {
 
     // CourseController
@@ -21,7 +28,7 @@ Route::group(['prefix'=>'/panel'], function() {
         Route::get('{course}/edit',[App\Http\Controllers\CourseController::class, 'edit'])->name('admin.course.edit');
         Route::get('add/{course}/lesson',[App\Http\Controllers\CourseController::class, 'add_lesson'])->name('admin.course.add');
         Route::post('{course}/edit',[App\Http\Controllers\CourseController::class, 'update'])->name('admin.course.update');
-        Route::post('add/{course}/lesson',[App\Http\Controllers\CourseController::class, 'save_lesson'])->name('admin.course.save.lesson');
+        Route::post('{course}/lessons',[App\Http\Controllers\CourseController::class, 'save_lesson'])->name('admin.course.save.lesson');
     });
 
 });

@@ -69,6 +69,12 @@ return array(
         "string"           => ":attribute باید برابر با :size کاراکتر باشد.",
         "array"            => ":attribute باسد شامل :size آیتم باشد.",
     ),
+    'gt' => array(
+        'array' => ':attribute باید :value باشد.',
+        'file' => ':attribute باید :value کیلوبایت باشد.',
+        'numeric' => ':attribute نباید کوچکتر از :value باشد.',
+        'string' => ':attribute بیایبابابا :value  کارکتر باشد.',
+    ),
     "timezone"             => "The :attribute must be a valid zone.",
     "unique"               => ":attribute قبلا انتخاب شده است.",
     "url"                  => "فرمت آدرس :attribute اشتباه است.",
